@@ -51,28 +51,12 @@ namespace markerlessAR
             //イベントの登録
             videoSource.NewFrame += new NewFrameEventHandler(videoSource_NewFrame);
             
-            
-            //一定時間間隔に発生するイベントの登録
-            timer.Tick += new EventHandler(Test_Tick);
-            timer.Interval = 20;
-            timer.Enabled = true;
-
+           
             //DBから物体情報の取得
             db.loadDB(1, 1, ref descTable, ref keyPointTable, ref infoTable);
             //物体情報を保存
             initilizeFlag = recognition.setData(descTable, keyPointTable);
 
-        }
-
-
-        private void Test_Tick(object sender, EventArgs e)
-        {
-            if (initilizeFlag == true)
-            {           
-              // cameraImage.Dispose();
-                arFlag = true;
-            }
-             
         }
 
         //新しいフレームが来た時
@@ -92,9 +76,8 @@ namespace markerlessAR
 
                     ID = recognition.findObject(cameraImage);
                     info = searchInfo(ID, infoTable);
-
-
                     arFlag = false;
+
                     cameraImage.Dispose();
                 }
 
@@ -119,7 +102,7 @@ namespace markerlessAR
             
 
             //一秒間（1000ミリ秒）停止する
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(20);
         }
 
         //ウィンドウを閉じる時
@@ -152,7 +135,7 @@ namespace markerlessAR
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-
+            arFlag = true;
         }
         
 
