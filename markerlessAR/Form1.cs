@@ -30,7 +30,7 @@ namespace markerlessAR
         bool initilizeFlag = false;
         bool arFlag = false;
         int ID;
-        String info = "a";
+        String[] info = new String[2];
 
         //特徴量の取得
         ConnectingDB db = new ConnectingDB();
@@ -46,6 +46,7 @@ namespace markerlessAR
         public Form1()
         {
             InitializeComponent();
+           
 
             videoCapture.Connect(out videoDevices, out videoSource);
             //イベントの登録
@@ -84,6 +85,7 @@ namespace markerlessAR
                 //ImageオブジェクトのGraphicsオブジェクトを作成する
                 Graphics g = Graphics.FromImage(pictureImage);
 
+                
                 //物体IDを設定
                 ar.setData(info);
                 //描画処理
@@ -121,21 +123,38 @@ namespace markerlessAR
             }
         }
 
-        private String searchInfo(int ID, System.Data.DataTable table) 
+        private String[] searchInfo(int ID, System.Data.DataTable table)
         {
-            var rows = (
-            from row in table.AsEnumerable()
+
+            String[] info = new String[2];
+
+            if (ID > 0)
+            {
+                var rows = (
+                from row in table.AsEnumerable()
                 let column = row.Field<int>("ID")
                 where column == ID
                 select row
-            ).ToArray();
+                ).ToArray();
 
-            return  (String)rows[0]["name"];
+                info[0] = (String)rows[0]["name"];
+                info[1] = (String)rows[0]["info"];
+            }
+            else 
+            {
+                info[1] = "見つかりませんでした";
+            }
+            return info;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             arFlag = true;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
         
 
