@@ -16,6 +16,7 @@ using OpenCvSharp.CPlusPlus;
 
 using objectRecognition;
 
+
 namespace markerlessAR
 {
     public partial class Form1 : Form
@@ -46,8 +47,14 @@ namespace markerlessAR
         public Form1()
         {
             InitializeComponent();
-           
-
+            pictureBox1.Location = new System.Drawing.Point(0,0);
+            pictureBox1.Width = ClientSize.Width;
+            pictureBox1.Height = ClientSize.Height;
+            /*
+            //フルスクリーンモード
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
+            */
             videoCapture.Connect(out videoDevices, out videoSource);
             //イベントの登録
             videoSource.NewFrame += new NewFrameEventHandler(videoSource_NewFrame);
@@ -142,6 +149,7 @@ namespace markerlessAR
             }
             else 
             {
+                info[0] = "Not Found.";
                 info[1] = "見つかりませんでした";
             }
             return info;
@@ -156,6 +164,19 @@ namespace markerlessAR
         {
 
         }
+
+        // フォームサイズ変更時のイベントプロシージャ
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+
+            //------------
+            // サイズ変更後のフォームの大きさに、ボタンの大きさを合わせる
+            //------------
+            pictureBox1.Width = ClientSize.Width;    // 横幅設定
+            pictureBox1.Height = ClientSize.Height;  // 縦幅設定
+
+        }
+
         
 
     }

@@ -10,8 +10,8 @@ namespace markerlessAR
     class AR
     {
         private String[] info;
-        Rectangle rectName = new Rectangle(20, 20, 300, 30);
-        Rectangle rectInfo = new Rectangle(5, 300, 630, 175);
+        private Rectangle rectName = new Rectangle(5, 280, 100, 20);
+        private Rectangle rectInfo = new Rectangle(5, 300, 630, 175);
 
         public void drawAR(Graphics g) 
         {
@@ -23,12 +23,14 @@ namespace markerlessAR
                 
                 // Draw rectangle to screen.
                 //g.DrawRectangle(blackPen, rectInfo);
+                g.FillRectangle(opaqueBrush, rectName);
                 g.FillRectangle(opaqueBrush, rectInfo);
 
                 //フォントオブジェクトの作成
                 Font fnt = new Font("メイリオ", 11);
                 //文字列を位置(0,0)、青色で表示
-                g.DrawString("これは" + info[0] + "です.", fnt, Brushes.Red, rectName);
+                
+                g.DrawString(info[0], fnt, Brushes.Red, rectName);
                 g.DrawString(info[1], fnt, Brushes.Red, rectInfo);
 
                 //リソースを解放する
